@@ -12,14 +12,9 @@ public:
     board();
 
     void resetBoard();
-
     bool checkWinner(PIECE player);
-
-    PIECE checkBoard(int position);
-
-    void setBoard(int position, PIECE player);
-
-    friend class gameEngine;
+    PIECE getBoardPosition(int position);
+    void setBoardPosition(int position, PIECE piece);
 
 private:
     PIECE mBoard[BOARD_SIZE * BOARD_SIZE];

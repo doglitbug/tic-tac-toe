@@ -5,17 +5,19 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 
-#define SCREEN_WIDTH 1024
-#define SCREEN_HEIGHT 768
+#define SCREEN_WIDTH 450
+#define SCREEN_HEIGHT 450
+#define CELL_WIDTH 150
 
 class gameEngine {
 public:
     gameEngine();
     ~gameEngine();
+    int init();
     void drawBoard();
     bool quit() { return mQuit; }
 
-    void input();
+    void doEvents();
 
 private:
     board *mBoard;

@@ -24,10 +24,10 @@ bool board::checkWinner(PIECE player) {
     return false;
 }
 
-PIECE board::checkBoard(int position) {
+PIECE board::getBoardPosition(int position) {
     return mBoard[position];
 }
 
-void board::setBoard(int position, PIECE player) {
-    mBoard[position] = player;
+void board::setBoardPosition(int position, PIECE piece) {
+    mBoard[position] = piece;
 }

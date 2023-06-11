@@ -1,6 +1,10 @@
 #include "gameEngine.h"
 
 gameEngine::gameEngine() {
+
+}
+
+int gameEngine::init() {
     ///We dont want to init unused or missing subsystems such as CD-ROM
     SDL_Init(SDL_INIT_VIDEO);
     //Create window
@@ -12,6 +16,8 @@ gameEngine::gameEngine() {
 
     mBoard = new board();
     mQuit = false;
+
+    return 0;
 }
 
 gameEngine::~gameEngine() {
@@ -24,7 +30,7 @@ gameEngine::~gameEngine() {
 void gameEngine::drawBoard() {
     for (int y = 0; y < BOARD_SIZE; ++y) {
         for (int x = 0; x < BOARD_SIZE; ++x) {
-            switch (mBoard->mBoard[x + y * BOARD_SIZE]) {
+            switch (mBoard->getBoardPosition(x + y * BOARD_SIZE)) {
                 case EMPTY: {
                     std::cout << " . ";
                     break;
@@ -45,11 +51,23 @@ void gameEngine::drawBoard() {
         }
         std::cout << std::endl;
     }
+
+    //Apply the image
+    //SDL_BlitSurface( gXOut, NULL, mScreenSurface, NULL );
+
+    //Update the surface
+    SDL_UpdateWindowSurface( mWindow );
 }
 
-void gameEngine::input() {
-    mBoard->setBoard(0, X);
-    mBoard->setBoard(3, O);
-    mBoard->setBoard(1, X);
+void gameEngine::doEvents() {
+    SDL_Event e;
 
+    while( SDL_PollEvent( &e ) != 0 )
+    {
+        //User requests quit
+        if( e.type == SDL_QUIT )
+        {
+            mQuit = true;
+        }
+    }
 }

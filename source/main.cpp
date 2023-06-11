@@ -2,15 +2,15 @@
 
 int main(int argc, char *args[]) {
     gameEngine *mGameEngine = new gameEngine();
-    if (mGameEngine == nullptr) {
-        return -1;
+    int result = mGameEngine->init();
+    if (result != 0) {
+        return result;
     }
 
-    //while (mGameEngine->quit() == false) {
-    //mGameEngine->drawBoard();
-    mGameEngine->input();
-    mGameEngine->drawBoard();
-    //}
+    while (!mGameEngine->quit()) {
+        mGameEngine->drawBoard();
+        mGameEngine->doEvents();
+    }
 
     delete mGameEngine;
     return 0;
