@@ -4,6 +4,7 @@
 #include "board.h"
 #include <iostream>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 
 #define SCREEN_WIDTH 450
 #define SCREEN_HEIGHT 450
@@ -17,13 +18,16 @@ public:
     void drawBoard();
     bool quit() { return mQuit; }
 
-    void doEvents();
+    void tick();
 
 private:
     board *mBoard;
     SDL_Window *mWindow;
     SDL_Surface *mScreenSurface;
     bool mQuit;
+    SDL_Surface* image_X;
+    SDL_Surface* image_O;
+    SDL_Surface* image_board;
 };
 
 #endif

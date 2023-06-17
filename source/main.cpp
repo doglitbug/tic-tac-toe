@@ -8,8 +8,7 @@ int main(int argc, char *args[]) {
     }
 
     while (!mGameEngine->quit()) {
-        mGameEngine->drawBoard();
-        mGameEngine->doEvents();
+        mGameEngine->tick();
     }
 
     delete mGameEngine;

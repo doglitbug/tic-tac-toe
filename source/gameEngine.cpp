@@ -1,8 +1,6 @@
 #include "gameEngine.h"
 
-gameEngine::gameEngine() {
-
-}
+gameEngine::gameEngine() {}
 
 int gameEngine::init() {
     ///We dont want to init unused or missing subsystems such as CD-ROM
@@ -17,14 +15,12 @@ int gameEngine::init() {
     mBoard = new board();
     mQuit = false;
 
-    return 0;
-}
+    //Load images
+    image_X = IMG_Load("../images/X.png");
+    image_O = IMG_Load("../images/O.png");
+    image_board = IMG_Load("../images/board.png");
 
-gameEngine::~gameEngine() {
-    delete mBoard;
-    SDL_DestroyWindow(mWindow);
-    mWindow = nullptr;
-    SDL_Quit();
+    return 0;
 }
 
 void gameEngine::drawBoard() {
@@ -59,7 +55,7 @@ void gameEngine::drawBoard() {
     SDL_UpdateWindowSurface( mWindow );
 }
 
-void gameEngine::doEvents() {
+void gameEngine::tick() {
     SDL_Event e;
 
     while( SDL_PollEvent( &e ) != 0 )
@@ -70,4 +66,13 @@ void gameEngine::doEvents() {
             mQuit = true;
         }
     }
+
+    drawBoard();
+}
+
+gameEngine::~gameEngine() {
+    delete mBoard;
+    SDL_DestroyWindow(mWindow);
+    mWindow = nullptr;
+    SDL_Quit();
 }
