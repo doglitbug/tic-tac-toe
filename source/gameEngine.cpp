@@ -24,19 +24,27 @@ int gameEngine::init() {
 }
 
 void gameEngine::drawBoard() {
+    //Clear board
+    SDL_BlitSurface(image_board, NULL, mScreenSurface, NULL);
+
     for (int y = 0; y < BOARD_SIZE; ++y) {
         for (int x = 0; x < BOARD_SIZE; ++x) {
+            //Generate position
+            SDL_Rect destination;
+            destination.x = x * 150 + 50;
+            destination.y = y * 150 + 50;
+            destination.h = destination.w = 100;
+
             switch (mBoard->getBoardPosition(x + y * BOARD_SIZE)) {
                 case EMPTY: {
-                    std::cout << " . ";
                     break;
                 }
                 case X: {
-                    std::cout << " X ";
+                    SDL_BlitSurface(image_X, NULL, mScreenSurface, &destination);
                     break;
                 }
                 case O: {
-                    std::cout << " O ";
+                    SDL_BlitSurface(image_O, NULL, mScreenSurface, &destination);
                     break;
                 }
                 default: {
@@ -45,24 +53,18 @@ void gameEngine::drawBoard() {
             }
 
         }
-        std::cout << std::endl;
     }
 
-    //Apply the image
-    //SDL_BlitSurface( gXOut, NULL, mScreenSurface, NULL );
-
     //Update the surface
-    SDL_UpdateWindowSurface( mWindow );
+    SDL_UpdateWindowSurface(mWindow);
 }
 
 void gameEngine::tick() {
     SDL_Event e;
 
-    while( SDL_PollEvent( &e ) != 0 )
-    {
+    while (SDL_PollEvent(&e) != 0) {
         //User requests quit
-        if( e.type == SDL_QUIT )
-        {
+        if (e.type == SDL_QUIT) {
             mQuit = true;
         }
     }
