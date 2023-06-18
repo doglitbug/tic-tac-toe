@@ -31,14 +31,11 @@ void gameEngine::drawBoard() {
         for (int x = 0; x < BOARD_SIZE; ++x) {
             //Generate position
             SDL_Rect destination;
-            destination.x = x * 150 + 50;
-            destination.y = y * 150 + 50;
+            destination.x = x * 150 + 25;
+            destination.y = y * 150 + 25;
             destination.h = destination.w = 100;
 
             switch (mBoard->getBoardPosition(x + y * BOARD_SIZE)) {
-                case EMPTY: {
-                    break;
-                }
                 case X: {
                     SDL_BlitSurface(image_X, NULL, mScreenSurface, &destination);
                     break;
@@ -63,13 +60,38 @@ void gameEngine::tick() {
     SDL_Event e;
 
     while (SDL_PollEvent(&e) != 0) {
-        //User requests quit
-        if (e.type == SDL_QUIT) {
-            mQuit = true;
+        switch (e.type) {
+            case SDL_MOUSEBUTTONDOWN:
+                processClick((int) e.button.x, (int) e.button.y);
+                break;
+            case SDL_QUIT:
+                mQuit = true;
+                break;
         }
     }
 
     drawBoard();
+}
+
+void gameEngine::processClick(int x, int y) {
+    x /= CELL_WIDTH;
+    y /= CELL_WIDTH;
+    int cellNumber = y * 3 + x;
+
+    if (mBoard->checkEmpty(cellNumber)) {
+        mBoard->setBoardPosition(cellNumber, mBoard->currentTurn);
+        //Check for winner
+        if (mBoard->checkWinner(mBoard->currentTurn)) {
+            std::cout << "Winner " << std::endl;
+        }
+
+        //Flip player turn
+        if (mBoard->currentTurn == X) {
+            mBoard->currentTurn = O;
+        } else {
+            mBoard->currentTurn = X;
+        }
+    }
 }
 
 gameEngine::~gameEngine() {

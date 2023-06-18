@@ -3,13 +3,13 @@
 
 board::board() {
     resetBoard();
-    currentTurn = X;
 }
 
 void board::resetBoard() {
     for (int i = 0; i < BOARD_SIZE * BOARD_SIZE; ++i) {
         mBoard[i] = EMPTY;
     }
+    currentTurn = X;
 }
 
 bool board::checkWinner(PIECE player) {
@@ -22,12 +22,4 @@ bool board::checkWinner(PIECE player) {
     }
 
     return false;
-}
-
-PIECE board::getBoardPosition(int position) {
-    return mBoard[position];
-}
-
-void board::setBoardPosition(int position, PIECE piece) {
-    mBoard[position] = piece;
 }

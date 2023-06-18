@@ -10,15 +10,15 @@ const int WINNING_LINES = 8;
 class board {
 public:
     board();
-
     void resetBoard();
+    PIECE getBoardPosition(int position) { return mBoard[position]; }
+    void setBoardPosition(int position, PIECE piece) { mBoard[position] = piece; }
+    bool checkEmpty(int position) { return mBoard[position] == EMPTY; }
     bool checkWinner(PIECE player);
-    PIECE getBoardPosition(int position);
-    void setBoardPosition(int position, PIECE piece);
+    PIECE currentTurn;
 
 private:
     PIECE mBoard[BOARD_SIZE * BOARD_SIZE];
-    PIECE currentTurn;
     const int winningLines[WINNING_LINES][BOARD_SIZE] = {
             {0, 1, 2},
             {3, 4, 5},
