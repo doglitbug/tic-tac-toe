@@ -58,11 +58,12 @@ void gameEngine::drawBoard() {
 
 void gameEngine::tick() {
     SDL_Event e;
+    PIECE result;
 
     while (SDL_PollEvent(&e) != 0) {
         switch (e.type) {
             case SDL_MOUSEBUTTONDOWN:
-                processClick((int) e.button.x, (int) e.button.y);
+                result = processClick((int) e.button.x, (int) e.button.y);
                 break;
             case SDL_QUIT:
                 mQuit = true;
@@ -71,26 +72,49 @@ void gameEngine::tick() {
     }
 
     drawBoard();
+
+    switch (result) {
+        case X:
+            SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "Tic Tac Toe", "Player X wins", mWindow);
+            mQuit = true;
+            break;
+        case O:
+            SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "Tic Tac Toe", "Player O wins", mWindow);
+            mQuit = true;
+            break;
+        case DRAW:
+            SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "Tic Tac Toe", "Draw!!", mWindow);
+            mQuit = true;
+            break;
+    }
 }
 
-void gameEngine::processClick(int x, int y) {
+PIECE gameEngine::processClick(int x, int y) {
     x /= CELL_WIDTH;
     y /= CELL_WIDTH;
     int cellNumber = y * 3 + x;
 
-    if (mBoard->checkEmpty(cellNumber)) {
-        mBoard->setBoardPosition(cellNumber, mBoard->currentTurn);
-        //Check for winner
-        if (mBoard->checkWinner(mBoard->currentTurn)) {
-            std::cout << "Winner " << std::endl;
-        }
+    if (!mBoard->checkEmpty(cellNumber)) {
+        return EMPTY;
+    }
 
-        //Flip player turn
-        if (mBoard->currentTurn == X) {
-            mBoard->currentTurn = O;
-        } else {
-            mBoard->currentTurn = X;
-        }
+    mBoard->setBoardPosition(cellNumber, mBoard->currentTurn);
+
+    //Check for winner
+    if (mBoard->checkWinner(mBoard->currentTurn)) {
+        return mBoard->currentTurn;
+    }
+
+    //Check for draw
+    if (mBoard->moveNumber++ == 8) {
+        return DRAW;
+    }
+
+    //Flip player turn
+    if (mBoard->currentTurn == X) {
+        mBoard->currentTurn = O;
+    } else {
+        mBoard->currentTurn = X;
     }
 }
 

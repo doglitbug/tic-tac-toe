@@ -2,7 +2,7 @@
 #define BOARD_H
 
 enum PIECE {
-    EMPTY = 0, X, O
+    EMPTY = 0, X, O, DRAW
 };
 const int BOARD_SIZE = 3;
 const int WINNING_LINES = 8;
@@ -16,6 +16,7 @@ public:
     bool checkEmpty(int position) { return mBoard[position] == EMPTY; }
     bool checkWinner(PIECE player);
     PIECE currentTurn;
+    int moveNumber;
 
 private:
     PIECE mBoard[BOARD_SIZE * BOARD_SIZE];

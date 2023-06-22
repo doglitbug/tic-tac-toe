@@ -16,7 +16,7 @@ public:
     ~gameEngine();
     int init();
     void drawBoard();
-    void processClick(int x, int y);
+    PIECE processClick(int x, int y);
     bool quit() { return mQuit; }
 
     void tick();

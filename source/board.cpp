@@ -10,6 +10,7 @@ void board::resetBoard() {
         mBoard[i] = EMPTY;
     }
     currentTurn = X;
+    moveNumber = 0;
 }
 
 bool board::checkWinner(PIECE player) {
