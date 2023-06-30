@@ -116,6 +116,8 @@ PIECE gameEngine::processClick(int x, int y) {
     } else {
         mBoard->currentTurn = X;
     }
+
+    return EMPTY;
 }
 
 gameEngine::~gameEngine() {
