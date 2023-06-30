@@ -6,4 +6,9 @@ Player X starts
 
 To build:
 
-`cmake -S source -B build`
+```
+cmake -S source -B build
+cd build
+make
+./tic_tac_toe
+```
